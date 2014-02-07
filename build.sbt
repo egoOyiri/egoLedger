@@ -11,3 +11,5 @@ libraryDependencies += "junit" % "junit" % "4.10" % "test"
 libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.0.5"
 
 libraryDependencies += "org.bouncycastle" % "bcprov-jdk16" % "1.46"
+
+libraryDependencies += "net.iharder" % "base64" % "2.3.7"

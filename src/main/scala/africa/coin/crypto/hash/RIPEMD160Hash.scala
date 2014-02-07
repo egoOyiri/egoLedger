@@ -1,7 +1,6 @@
 package africa.coin.crypto.hash
 
 import org.bouncycastle.jce.provider.JDKMessageDigest 
-import africa.coin.crypto.hash.CryptographicHash
 
 object RIPEMD160Hash extends CryptographicHash {
   private val hasher = new JDKMessageDigest.RIPEMD160
