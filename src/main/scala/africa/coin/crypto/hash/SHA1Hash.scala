@@ -1,6 +1,7 @@
-package africa.coin.crypto
+package africa.coin.crypto.hash
 
 import java.security.MessageDigest
+import africa.coin.crypto.CryptographicHash
 
 object SHA1Hash extends CryptographicHash {
   private val hasher = MessageDigest.getInstance("SHA-1")

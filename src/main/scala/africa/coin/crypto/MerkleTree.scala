@@ -1,6 +1,7 @@
 package africa.coin.crypto
 
 import scala.annotation.tailrec
+import africa.coin.crypto.hash.SHA1Hash
 
 object MerkleTree {
   sealed trait Tree[+A, Hash <: CryptographicHash] { val hash: Vector[Byte] }
