@@ -3,10 +3,12 @@ egoLedger
 
 This is an attempt to duplicate and understand the Bictoin Protocol. The ultimate goal is to provide a library managing the Bitcoin BlockChain
 
-$ sbt test
+`sbt test`
 
-$ sbt eclipse
+`sbt eclipse`
 
+Hash Testing Site
+http://gobittest.appspot.com/Address
 
 Hash Libraries:
 - java.security.MessageDigest (SHA-1,HA-256)
