@@ -5,7 +5,7 @@ import org.scalatest._
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class Common_standards_HashesSpec extends FreeSpec {
+class Protocol_specification_HashesSpec extends FreeSpec {
 
   val hello = "hello"
 

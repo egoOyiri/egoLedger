@@ -1,7 +1,8 @@
-package africa.coin.crypto
+package africa.coin.crypto.container
 
 import scala.annotation.tailrec
 import africa.coin.crypto.hash.SHA1Hash
+import africa.coin.crypto.hash.CryptographicHash
 
 object MerkleTree {
   sealed trait Tree[+A, Hash <: CryptographicHash] { val hash: Vector[Byte] }
@@ -9,14 +10,14 @@ object MerkleTree {
   case class Node[+A, Hash <: CryptographicHash](
     leftChild: Tree[A, Hash],
     rightChild: Tree[A, Hash])(hashFunction: Hash)
-      extends Tree[A, Hash] {
+    extends Tree[A, Hash] {
 
     override val hash: Vector[Byte] =
       hashFunction.hash(leftChild.hash ++ rightChild.hash)
   }
 
   case class Leaf[+A, Hash <: CryptographicHash](data: A)(hashFunction: Hash)
-      extends Tree[A, Hash] {
+    extends Tree[A, Hash] {
 
     override val hash: Vector[Byte] = hashFunction.hash(data.toString.getBytes)
   }
