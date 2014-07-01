@@ -19,3 +19,6 @@ Container Code Source:
 
 Signature Source Code:
 - ECDSA https://github.com/baturinsky/Scala-Ecc
+
+Reference:
+https://en.bitcoin.it/wiki/Protocol_Specification
