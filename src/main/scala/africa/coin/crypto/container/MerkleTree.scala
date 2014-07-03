@@ -5,70 +5,51 @@ import africa.coin.crypto.hash.SHA1Hash
 import africa.coin.crypto.hash.CryptographicHash
 
 object MerkleTree {
+
   sealed trait Tree[+A, Hash <: CryptographicHash] { val hash: Vector[Byte] }
-
-  case class Node[+A, Hash <: CryptographicHash](
-    leftChild: Tree[A, Hash],
-    rightChild: Tree[A, Hash])(hashFunction: Hash)
-    extends Tree[A, Hash] {
-
-    override val hash: Vector[Byte] =
-      hashFunction.hash(leftChild.hash ++ rightChild.hash)
+  case class EmptyLeaf[Hash <: CryptographicHash](implicit hashFunction: Hash) extends Tree[Nothing, Hash] {
+    override val hash: Vector[Byte] = Vector.empty[Byte]
   }
-
-  case class Leaf[+A, Hash <: CryptographicHash](data: A)(hashFunction: Hash)
-    extends Tree[A, Hash] {
-
+  case class Node[+A, Hash <: CryptographicHash](left: Tree[A, Hash], right: Tree[A, Hash])(implicit hashFunction: Hash) extends Tree[A, Hash] {
+    override val hash: Vector[Byte] = hashFunction.hash(left.hash ++ right.hash)
+  }
+  case class Leaf[+A, Hash <: CryptographicHash](data: A)(implicit hashFunction: Hash) extends Tree[A, Hash] {
     override val hash: Vector[Byte] = hashFunction.hash(data.toString.getBytes)
   }
 
-  case class EmptyLeaf[Hash <: CryptographicHash]()(hashFunction: Hash) extends Tree[Nothing, Hash] {
-    override val hash: Vector[Byte] = Vector.empty[Byte]
-  }
-
-  def create[A, Hash <: CryptographicHash](
-    dataBlocks: Seq[A],
-    hashFunction: Hash = SHA1Hash): Tree[A, Hash] = {
-    val level = calculateRequiredLevel(dataBlocks.size)
-
-    val dataLeaves = dataBlocks.map(data => Leaf(data)(hashFunction))
-
+  def apply[A, Hash <: CryptographicHash](dataBlocks: Seq[A])(implicit hashFunction: Hash = SHA1Hash): Tree[A, Hash] = {
+    val level         = calculateRequiredLevel(dataBlocks.size)
+    val dataLeaves    = dataBlocks.map(data => Leaf(data))
     val paddingNeeded = math.pow(2, level).toInt - dataBlocks.size
-    val padding = Seq.fill(paddingNeeded)(EmptyLeaf()(hashFunction))
+    val padding       = Seq.fill(paddingNeeded)(EmptyLeaf())
 
     val leaves = dataLeaves ++ padding
 
-    makeTree(leaves, hashFunction)
+    search(leaves)
   }
 
-  def merge[A, Hash <: CryptographicHash](
-    leftChild: Tree[A, Hash],
-    rightChild: Tree[A, Hash],
-    hashFunction: Hash): Node[A, Hash] = {
-    Node(leftChild, rightChild)(hashFunction)
+  // merge
+  def ++[A, Hash <: CryptographicHash](leftChild: Tree[A, Hash],rightChild: Tree[A, Hash])(implicit hashFunction: Hash): Node[A, Hash] = {
+    Node(leftChild, rightChild)
   }
 
   private def calculateRequiredLevel(numberOfDataBlocks: Int): Int = {
     def log2(x: Double): Double = math.log(x) / math.log(2)
-
     math.ceil(log2(numberOfDataBlocks)).toInt
   }
 
-  @tailrec
-  private def makeTree[A, Hash <: CryptographicHash](
-    trees: Seq[Tree[A, Hash]],
-    hashFunction: Hash): Tree[A, Hash] = {
+  private def search[A, Hash <: CryptographicHash](trees: Seq[Tree[A, Hash]])(implicit hashFunction: Hash): Tree[A, Hash] = {
     def createParent(treePair: Seq[Tree[A, Hash]]): Node[A, Hash] = {
       val leftChild +: rightChild +: _ = treePair
-      merge(leftChild, rightChild, hashFunction)
+      this.++(leftChild, rightChild)
     }
 
     if (trees.size == 0) {
-      EmptyLeaf()(hashFunction)
+      EmptyLeaf()
     } else if (trees.size == 1) {
       trees.head
     } else {
-      makeTree(trees.grouped(2).map(createParent).toSeq, hashFunction)
+      search(trees.grouped(2).map(createParent).toSeq)
     }
   }
 }
