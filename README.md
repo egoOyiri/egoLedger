@@ -14,7 +14,7 @@ Hash Libraries:
 - java.security.MessageDigest (SHA-1,HA-256)
 - org.bouncycastle.jce.provider.JDKMessageDigest (RIPEMD160)
 
-Container Code Source:
+Container Code Source: (initially derived from)
 - Merkle Tree https://github.com/adelbertc/scala-playground.git
 
 Signature Source Code:
