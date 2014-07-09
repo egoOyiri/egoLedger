@@ -18,11 +18,9 @@ object MerkleTree {
 
 
   def apply[A, Hash <: CryptographicHash](dataBlocks: Seq[A])(implicit hashFunction: Hash = SHA256Hash): Tree[A, Hash] = {
-	val level         = ceil(log(dataBlocks.size)/log(2))
-	val paddingNeeded = pow(2, level).toInt - dataBlocks.size
-	val padding       = Seq.fill(paddingNeeded)(EmptyLeaf())
-
-    search(dataBlocks.map(data => Leaf(data)) ++ padding)
+	val level   = ceil(log(dataBlocks.size)/log(2))
+    val padding = pow(2, level).toInt - dataBlocks.size
+    search(dataBlocks.map(data => Leaf(data)) ++ Seq.fill(padding)(EmptyLeaf()))
   }
 
   def search[A, Hash <: CryptographicHash](trees: Seq[Tree[A, Hash]])(implicit hashFunction: Hash): Tree[A, Hash] = {
@@ -30,7 +28,7 @@ object MerkleTree {
           case Nil           => EmptyLeaf()
           case x +: Nil      => trees.head
           case x +: y +: _   =>
-		       search(trees.grouped(2).map( _ match { case leftChild +: rightChild +: _ => Node(leftChild,rightChild) }).toSeq)
+		       search((trees.grouped(2).map( _ match { case l +: r +: _ => Node(l,r) })).toSeq)
         }
   }
   
