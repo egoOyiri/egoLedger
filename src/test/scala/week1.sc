@@ -164,8 +164,8 @@ hello.map(ascii(_)).mkString                      //> res0: String = Hello
                                                   
                                                   
     // simple test on 2 ciphertexts
-    val ct1 = (cts(0).toSeq.grouped(2).map( x => Integer.parseInt(x.toString, 16).toByte)).toVector
-                                                  //> ct1  : Vector[Byte] = Vector(49, 92, 78, -22, -88, -75, -8, -86, -7, 23, 65
+    val ct0 = (cts(0).toSeq.grouped(2).map( x => Integer.parseInt(x.toString, 16).toByte)).toVector
+                                                  //> ct0  : Vector[Byte] = Vector(49, 92, 78, -22, -88, -75, -8, -86, -7, 23, 65
                                                   //| , 69, -65, 67, -31, 120, 75, -113, -96, 13, -57, 29, -120, 90, -128, 78, 94
                                                   //| , -23, -6, 64, -79, 99, 73, -63, 70, -5, 119, -116, -33, 45, 58, -1, 2, 29,
                                                   //|  -1, -11, -76, 3, -75, 16, -48, -48, 69, 84, 104, -82, -71, -122, 34, -79, 
@@ -175,16 +175,16 @@ hello.map(ascii(_)).mkString                      //> res0: String = Hello
                                                   //|  -72, 59, 34, 8, 9, 86, 9, -121, -127, 95, 101, 40, 103, 100, 112, 61, -32,
                                                   //|  -13, -43, 36, 64, 10, 25, -79, 89, 97, 11, 17, -17, 62)
                                                   
-  ct1.map("%02x".format(_)).mkString              //> res1: String = 315c4eeaa8b5f8aaf9174145bf43e1784b8fa00dc71d885a804e5ee9fa40
-                                                  //| b16349c146fb778cdf2d3aff021dfff5b403b510d0d0455468aeb98622b137dae857553ccd8
-                                                  //| 883a7bc37520e06e515d22c954eba5025b8cc57ee59418ce7dc6bc41556bdb36bbca3e87743
-                                                  //| 01fbcaa3b83b220809560987815f65286764703de0f3d524400a19b159610b11ef3e
-  ct1.map(ascii(_)).mkString                      //> res2: String = 1\N.......AE.C.xK......Z.N^..@.cI.F.w..-:...........ETh...".
+  ct0.map("%x".format(_)).mkString                //> res1: String = 315c4eeaa8b5f8aaf9174145bf43e1784b8fa0dc71d885a804e5ee9fa40b
+                                                  //| 16349c146fb778cdf2d3aff21dfff5b43b510d0d0455468aeb98622b137dae857553ccd8883
+                                                  //| a7bc3752e6e515d22c954eba5025b8cc57ee59418ce7dc6bc41556bdb36bbca3e877431fbca
+                                                  //| a3b83b228956987815f65286764703de0f3d52440a19b15961b11ef3e
+  ct0.map(ascii(_)).mkString                      //> res2: String = 1\N.......AE.C.xK......Z.N^..@.cI.F.w..-:...........ETh...".
                                                   //| 7..WU<.....7R.....,.N.P%..W.YA...k..V..k...wC.....;"..V..._e(gdp=...$@...Ya
                                                   //| ...>
    
-  val ct2 = (cts(1).toSeq.grouped(2).map( x => Integer.parseInt(x.toString, 16).toByte)).toVector
-                                                  //> ct2  : Vector[Byte] = Vector(35, 76, 2, -20, -69, -5, -81, -93, -19, 24, 81
+  val ct1 = (cts(1).toSeq.grouped(2).map( x => Integer.parseInt(x.toString, 16).toByte)).toVector
+                                                  //> ct1  : Vector[Byte] = Vector(35, 76, 2, -20, -69, -5, -81, -93, -19, 24, 81
                                                   //| , 10, -67, 17, -6, 114, 79, -51, -94, 1, -118, 26, -125, 66, -49, 6, 75, -6
                                                   //| 7, -27, 72, -79, 43, 7, -33, 68, -70, 113, -111, -39, 96, 110, -12, 8, 31, 
                                                   //| -3, -27, -83, 70, -91, 6, -99, -97, 127, 84, 59, -19, -71, -56, 97, -65, 41
@@ -193,30 +193,30 @@ hello.map(ascii(_)).mkString                      //> res0: String = Hello
                                                   //| , -52, 91, 2, -118, -89, 110, -73, -76, -85, 36, 23, 26, -77, -51, -83, -72
                                                   //| , 53, 111)
   
-  ct2.map("%02x".format(_)).mkString              //> res3: String = 234c02ecbbfbafa3ed18510abd11fa724fcda2018a1a8342cf064bbde548
-                                                  //| b12b07df44ba7191d9606ef4081ffde5ad46a5069d9f7f543bedb9c861bf29c7e205132eda9
-                                                  //| 382b0bc2c5c4b45f919cf3a9f1cb74151f6d551f4480c82b2cb24cc5b028aa76eb7b4ab2417
-                                                  //| 1ab3cdadb8356f
-  ct2.map(ascii(_)).mkString                      //> res4: String = #L........Q....rO......B..K..H.+..D.q..`n......F.....T;...a.
+  ct1.map("%x".format(_)).mkString                //> res3: String = 234c2ecbbfbafa3ed1851abd11fa724fcda218a1a8342cf64bbde548b12b
+                                                  //| 7df44ba7191d9606ef481ffde5ad46a569d9f7f543bedb9c861bf29c7e25132eda9382b0bc2
+                                                  //| c5c4b45f919cf3a9f1cb74151f6d551f448c82b2cb24cc5b28aa76eb7b4ab24171ab3cdadb8
+                                                  //| 356f
+  ct1.map(ascii(_)).mkString                      //> res4: String = #L........Q....rO......B..K..H.+..D.q..`n......F.....T;...a.
                                                   //| )..........,\KE...:...AQ..Q.H....$.[...n...$......5o
   
-  val xor1_and_2 = ct1 zip ct2 map (x => (x._1 ^ x._2).toByte )
-                                                  //> xor1_and_2  : scala.collection.immutable.Vector[Byte] = Vector(18, 16, 76, 
+  val xor0_and_1 = ct0 zip ct1 map (x => (x._1 ^ x._2).toByte )
+                                                  //> xor0_and_1  : scala.collection.immutable.Vector[Byte] = Vector(18, 16, 76, 
                                                   //| 6, 19, 78, 87, 9, 20, 15, 16, 79, 2, 82, 27, 10, 4, 66, 2, 12, 77, 7, 11, 2
                                                   //| 4, 79, 72, 21, 84, 31, 8, 0, 72, 78, 30, 2, 65, 6, 29, 6, 77, 84, 11, 10, 2
                                                   //| , 2, 16, 25, 69, 16, 22, 77, 79, 58, 0, 83, 67, 0, 78, 67, 14, 30, 29, 10, 
                                                   //| 82, 70, 18, 23, 27, 1, 23, 0, 27, 14, 69, 67, 28, 12, 29, 22, 10, 82, 13, 1
                                                   //| 7, 116, 78, 25, 6, 26, 17, 77, 14, 85, 23, 79, 8, 78, 84, 55, 20, 5, 11, 23
                                                   //| , 67, 83, 84, 27, 72, 7, 14, 0, 14, 77)
-  xor1_and_2.map("%02x".format(_)).mkString       //> res5: String = 12104c06134e5709140f104f02521b0a0442020c4d070b184f4815541f08
+  xor0_and_1.map("%02x".format(_)).mkString       //> res5: String = 12104c06134e5709140f104f02521b0a0442020c4d070b184f4815541f08
                                                   //| 00484e1e0241061d064d540b0a020210194510164d4f3a005343004e430e1e1d0a524612171
                                                   //| b0117001b0e45431c0c1d160a520d11744e19061a114d0e55174f084e543714050b17435354
                                                   //| 1b48070e000e4d
 
-  (0x31 ^ 0x23).toByte ==  xor1_and_2(0)          //> res6: Boolean = true
-  (0x5c ^ 0x4c).toByte ==  xor1_and_2(1)          //> res7: Boolean = true
+  (0x31 ^ 0x23).toByte ==  xor0_and_1(0)          //> res6: Boolean = true
+  (0x5c ^ 0x4c).toByte ==  xor0_and_1(1)          //> res7: Boolean = true
   
-  xor1_and_2.map(ascii(_)).mkString               //> res8: String = ..L..NW....O.R...B..M...OH.T...HN..A...MT......E..MO:.SC.NC.
+  xor0_and_1.map(ascii(_)).mkString               //> res8: String = ..L..NW....O.R...B..M...OH.T...HN..A...MT......E..MO:.SC.NC.
                                                   //| ...RF........EC.....R..tN....M.U.O.NT7....CST.H....M
  
  // test on ciphertext loops
@@ -275,16 +275,16 @@ hello.map(ascii(_)).mkString                      //> res0: String = Hello
  toHex(xor_all.last(0))                           //> res13: String = 61744015522a190f170c5e0e453651464f170a271b1a041d06010f520a4
                                                   //| 340575d55165a5405118adfa15d45124c041d0b1900074d125f001a0908450d0b54414f1652
                                                   //| 4f14170d011b0b47460052524716010904081a0e4e044f0f000a5d0c
- val xorSpace = xor_all.last(0).map(x => (if ((x>=A && x<=Z)||(x>=a && x<=z)) x^sp else x).toByte)
+ val xorSpace = xor_all.last(0).map(x => (if (x.toChar.isLetter) x^sp else x).toByte)
                                                   //> xorSpace  : scala.collection.immutable.Vector[Byte] = Vector(65, 84, 64, 21
                                                   //| , 114, 42, 25, 15, 23, 12, 94, 14, 101, 54, 113, 102, 111, 23, 10, 39, 27, 
-                                                  //| 26, 4, 29, 6, 1, 15, 114, 10, 99, 64, 119, 93, 117, 22, 122, 116, 5, 17, -1
-                                                  //| 18, -33, -95, 93, 101, 18, 108, 4, 29, 11, 25, 0, 7, 109, 18, 95, 0, 26, 9,
+                                                  //| 26, 4, 29, 6, 1, 15, 114, 10, 99, 64, 119, 93, 117, 22, 122, 116, 5, 17, -8
+                                                  //| 6, -33, -127, 93, 101, 18, 108, 4, 29, 11, 25, 0, 7, 109, 18, 95, 0, 26, 9,
                                                   //|  8, 101, 13, 11, 116, 97, 111, 22, 114, 111, 20, 23, 13, 1, 27, 11, 103, 10
                                                   //| 2, 0, 114, 114, 103, 22, 1, 9, 4, 8, 26, 14, 110, 4, 111, 15, 0, 10, 93, 12
                                                   //| )
  toHex(xorSpace)                                  //> res14: String = 41544015722a190f170c5e0e653671666f170a271b1a041d06010f720a6
-                                                  //| 340775d75167a7405118adfa15d65126c041d0b1900076d125f001a0908650d0b74616f1672
+                                                  //| 340775d75167a740511aadf815d65126c041d0b1900076d125f001a0908650d0b74616f1672
                                                   //| 6f14170d011b0b67660072726716010904081a0e6e046f0f000a5d0c
  xorSpace.map(ascii(_)).mkString                  //> res15: String = AT@.r*....^.e6qfo..'.......r.c@w]u.zt.....]e.l......m._....
                                                   //| e..tao.ro......gf.rrg.......n.o...].
@@ -319,4 +319,5 @@ val decrypt2 = dt zip xor_all(3)(0) map (x => (x._1 ^ x._2).toByte )
                                                   //| 0, -126, -7, -13, 101, 89, 67, 78, -30, 10, -60, 58, -103, 75, -1, 87)
  decrypt2.map(ascii(_)).mkString                  //> res19: String = ?V.......R.C...uT.........Q..K.g....l..ui.M......D..wE-...y
                                                   //| .:..H.*.....eYCN...:.K.W
+ 
 }
